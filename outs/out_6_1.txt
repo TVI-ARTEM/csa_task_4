@@ -1,0 +1,7 @@
+Filled container:
+0: It is a square matrix. Dimension = 2, Sum = 0, Average = 0
+-1 1
+1 -1
+
+Time: 
+0 sec, 45257 nsec

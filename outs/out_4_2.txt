@@ -1,0 +1,7 @@
+Filled container:
+0: It is a low triangle matrix. Dimension = 2, Sum = 6, Average = 1.5
+1 0
+2 3
+
+Time: 
+0 sec, 113702 nsec

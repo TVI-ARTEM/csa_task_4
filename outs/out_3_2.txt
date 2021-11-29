@@ -1,0 +1,9 @@
+Filled container:
+0: It is a diagonal matrix. Dimension = 4, Sum = -32, Average = -2
+1 0 0 0
+0 2 0 0
+0 0 -45 0
+0 0 0 10
+
+Time: 
+0 sec, 117613 nsec

@@ -1,0 +1,8 @@
+Filled container:
+0: It is a square matrix. Dimension = 3, Sum = 79, Average = 8.77778
+10 10 20
+-1 1 -50
+45 12 32
+
+Time: 
+0 sec, 40787 nsec

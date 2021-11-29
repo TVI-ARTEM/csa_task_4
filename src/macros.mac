@@ -1,0 +1,134 @@
+; macros.mac - файл с макроопределениями
+
+extern  fopen
+extern  fscanf
+extern  fclose
+extern  fprintf
+extern  printf
+extern  stdout
+extern  time
+extern  srand
+extern  strcmp
+extern  atoi
+extern  clock
+extern  CLOCKS_PER_SEC
+
+extern  InContainer
+extern  InRandomCont
+extern  OutContainer
+extern  SortContainer
+
+;-------------------------------------------------------------
+; Вывод строки символов из буфера
+%macro	PrintStrBuf 2
+        mov rdi, %2
+        mov rsi, %1
+        xor rax, rax
+        call fprintf
+%endmacro
+
+;-------------------------------------------------------------
+; Вывод строки, передаваемой непосредственно макросу
+%macro  PrintStr    2
+    section .data
+        %%arg1  db  %1,0        ; first argument
+    section .text               ; the printf arguments
+        mov rdi, %2
+        mov rsi, %%arg1
+        mov rax, 0              ; no floating point
+        call fprintf
+%endmacro
+
+;-------------------------------------------------------------
+; Вывод строки, передаваемой непосредственно макросу
+; с переводом на следующую строку
+%macro  PrintStrLn    2
+    section .data
+        %%arg1  db  %1,10,0     ; first argument
+    section .text               ; the printf arguments
+        mov rdi, %2
+        mov rsi, %%arg1
+        mov rax, 0              ; no floating point
+        call fprintf
+%endmacro
+
+;-------------------------------------------------------------
+; Вывод целого числа
+%macro  PrintInt    2
+    section .data
+        %%arg1  db  "%d",0     ; first argument
+    section .text               ; the printf arguments
+        mov rdi, %2
+        mov rsi, %%arg1
+        mov rdx, %1
+        mov rax, 0              ; no floating point
+        call fprintf
+%endmacro
+
+;-------------------------------------------------------------
+; Вывод 64-разрядного беззнакового целого числа
+%macro  PrintLLUns    2
+    section .data
+        %%arg1  db  "%llu",0     ; first argument
+    section .text               ; the printf arguments
+        mov rdi, %2
+        mov rsi, %%arg1
+        mov rdx, %1
+        mov rax, 0              ; no floating point
+        call fprintf
+%endmacro
+
+;-------------------------------------------------------------
+; Вывод действительного числа двойной точности
+%macro  PrintDouble    2
+    section .data
+        %%arg1  db  "%g",0     ; first argument
+    section .text               ; the printf arguments
+        mov rdi, %2
+        mov rsi, %%arg1
+        movsd xmm0, %1
+        mov rax, 1              ; no floating point
+        call fprintf
+%endmacro
+
+;-------------------------------------------------------------
+; Вывод содержимого контейнера
+%macro  PrintContainer    3
+    mov     rdi, %1
+    mov     esi, %2
+    mov     rdx, %3
+    mov     rax, 0              ; нет чисел с плавающей точкой
+    call    OutContainer
+%endmacro
+
+;-------------------------------------------------------------
+; Вывод содержимого контейнера
+%macro  SortCont    2
+    mov     rdi, %1
+    mov     esi, %2
+    mov     rax, 0              ; нет чисел с плавающей точкой
+    call    SortContainer
+%endmacro
+
+
+;-------------------------------------------------------------
+; Открытие файла для чтения, записи
+%macro  FileOpen   3
+    section .data
+        %%rw  db  %2,0          ; признак доступа
+    section .text               ; the printf arguments
+        mov     rdi, %1         ; адрес строки открываемого файла
+        mov     rsi, %%rw       ; строка определяющая чтение-запись. Задается явно
+        mov     rax, 0          ; нет чисел с плавающей точкой
+        call    fopen
+        mov     [%3], rax
+%endmacro
+
+;-------------------------------------------------------------
+; Закрытие открытого файла
+%macro  FileClose   1
+    mov     rdi, %1             ; передача указателя на закрываемый файл
+    mov     rax, 0              ; нет чисел с плавающей точкой
+    call    fclose
+%endmacro
+
